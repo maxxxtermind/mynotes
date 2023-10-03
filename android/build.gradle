@@ -1,0 +1,32 @@
+buildscript {
+    ext.kotlin_version = '1.7.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+// This part is suspicious and usually not present in the root build.gradle
+// subprojects {
+//     project.evaluationDependsOn(':app')
+// }
+
+// This should not be in the project-level build.gradle, it's typically found in the app-level build.gradle
+// apply plugin: 'com.android.application'
