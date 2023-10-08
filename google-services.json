@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "60109833873",
+    "firebase_url": "https://mynotes-3421b-default-rtdb.firebaseio.com",
+    "project_id": "mynotes-3421b",
+    "storage_bucket": "mynotes-3421b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60109833873:android:7ade2725b2d45c1e906130",
+        "android_client_info": {
+          "package_name": "com.example.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLfrI3q643fLNAMfGyalsjFidYBPjLcis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
