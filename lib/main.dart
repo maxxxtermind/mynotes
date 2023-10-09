@@ -7,6 +7,7 @@ import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 import 'dart:developer' as devtools show log;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'constants/routes.dart';
 
 void main() async {
   devtools.log;
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomePage(),
       routes: {
-        '/login/': (context) => const LoginView(),
-        '/register/': (context) => const RegisterView(),
-        '/notes/': (context) => const NotesView(),
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        notesRoute: (context) => const NotesView(),
       },
     );
   }
@@ -46,9 +47,9 @@ class HomePage extends StatelessWidget {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               if (user.emailVerified) {
-                return const VerifyEmailView();
-              } else {
                 return const NotesView();
+              } else {
+                return const VerifyEmailView();
               }
             } else {
               return const LoginView();
@@ -88,7 +89,7 @@ class _NotesViewState extends State<NotesView> {
                   if (shouldLogout) {
                     await FirebaseAuth.instance.signOut();
                     Navigator.of (context).pushNamedAndRemoveUntil(
-                        '/login/',
+                        loginRoute,
                             (_) => false);
                     }
               }
