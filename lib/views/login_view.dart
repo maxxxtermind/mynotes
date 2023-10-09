@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devtools show log;
-
 import 'package:mynotes/constants/routes.dart';
+
+import '../utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -61,19 +62,29 @@ class _LoginViewState extends State<LoginView> {
                 final email = _email.text;
                 final password = _password.text;
                 try {
-                  await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: email, password: password);
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email, password: password);
 
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     notesRoute,
                     (route) => false,
                   );
                 } on FirebaseAuthException catch (e) {
-                  if (e.code == 'user-not-found') {
-                    devtools.log("User not found");
-                  } else if (e.code == 'wrong-password') {
-                    devtools.log("Wrong password");
+                  if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+                    await showErrorDialog(
+                      context,
+                      "Wrong credentials",
+                    );
+                  } else if (e.code == 'invalid-password') {
+                    await showErrorDialog(
+                      context,
+                      "Wrong password",
+                    );
+                  } else {
+                    await showErrorDialog(
+                      context,
+                      e.toString(),
+                    );
                   }
                 }
               },
@@ -89,3 +100,4 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
+

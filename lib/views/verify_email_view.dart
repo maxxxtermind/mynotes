@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'dart:developer' as devtools show log;
+import 'package:mynotes/constants/routes.dart';
+
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
