@@ -6,6 +6,7 @@ import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 import 'dart:developer' as devtools show log;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 void main() async {
   devtools.log;
@@ -25,8 +26,8 @@ class MyApp extends StatelessWidget {
       home: const HomePage(),
       routes: {
         '/login/': (context) => const LoginView(),
-        '/register/': (context) =>
-            const RegisterView(), // Fix the semicolon here
+        '/register/': (context) => const RegisterView(),
+        '/notes/': (context) => const NotesView(),
       },
     );
   }
@@ -71,6 +72,8 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
+  final controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +104,7 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
+    body: Text("Some text here"),
     );
   }
 }

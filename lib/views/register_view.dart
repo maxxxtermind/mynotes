@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as devtools show log;
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -60,10 +61,10 @@ class _RegisterViewState extends State<RegisterView> {
                   final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
-                    print('Weak password');
+                    devtools.log('Weak password');
                   }
-                  print(e.runtimeType);
-                  print("Something went wrong");
+                  devtools.log(e.runtimeType.toString());
+                  devtools.log("Something went wrong");
                 }
               },
               child: const Text('Register'),
