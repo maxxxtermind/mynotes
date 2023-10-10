@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer' as devtools show log;
+import 'package:mynotes/utilities/show_error_dialog.dart';
 
 import '../constants/routes.dart';
 
@@ -60,13 +60,23 @@ class _RegisterViewState extends State<RegisterView> {
                 final email = _email.text;
                 final password = _password.text;
                 try {
-                  final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+                  final user = FirebaseAuth.instance.currentUser;
+                  await user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
-                    devtools.log('Weak password');
+                    await showErrorDialog(context, "Weak password",);
+                  } else if (e.code == 'email-already-in-use') {
+                    await showErrorDialog(context, "Email already in use",);
+                  } else if (e.code == 'invalid-email') {
+                    await showErrorDialog(context, "Invalid email address",);
+                  } else {
+                    await showErrorDialog(context, "Error: ${e.code}",
+                    );
                   }
-                  devtools.log(e.runtimeType.toString());
-                  devtools.log("Something went wrong");
+                } catch (e) {
+                  await showErrorDialog(context, e.toString(),);
                 }
               },
               child: const Text('Register'),
@@ -78,7 +88,8 @@ class _RegisterViewState extends State<RegisterView> {
               },
                 child: Text("Already registered? Login here!"),
 
-            )
+            ),
+
           ],
         ),
     );
