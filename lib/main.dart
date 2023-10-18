@@ -5,7 +5,6 @@ import 'package:mynotes/views/notes_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 import 'dart:developer' as devtools show log;
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'constants/routes.dart';
 
 void main() async {
