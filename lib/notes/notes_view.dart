@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import '../constants/routes.dart';
-import '../enums/menu_action.dart';
-import '../services/crud/notes_service.dart';
+import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/enums/menu_action.dart';
+import 'package:mynotes/services/crud/notes_service.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({Key? key}) : super(key: key); // Fixed the constructor
@@ -13,7 +13,12 @@ class NotesView extends StatefulWidget {
 
 class _NotesViewState extends State<NotesView> {
   late final NotesService _notesService;
-  String get userEmail => AuthService.firebase().currentUser!.email!;
+
+  String get userEmail =>
+      AuthService
+          .firebase()
+          .currentUser!
+          .email!;
 
   @override
   void initState() {
@@ -31,8 +36,14 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main UI"),
+        title: const Text("Your notes"),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(newNoteRoute);
+            },
+            icon: const Icon(Icons.add),
+          ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -53,7 +64,7 @@ class _NotesViewState extends State<NotesView> {
                 ),
               ];
             },
-          )
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -72,42 +83,37 @@ class _NotesViewState extends State<NotesView> {
                   }
                 },
               );
-            case ConnectionState.none:
-              // TODO: Handle this case.
-            case ConnectionState.waiting:
-              // TODO: Handle this case.
-            case ConnectionState.active:
-              // TODO: Handle this case.
-          default:
-            return const CircularProgressIndicator();
+            default:
+              return const CircularProgressIndicator();
           }
         },
       ),
     );
   }
 
-Future<bool> showLogoutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Sign out"),
-        content: const Text("U sure wanna sign out pal?"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Nah, cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: const Text('Log out'),
-          ),
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
+  Future<bool> showLogoutDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Sign out"),
+          content: const Text("U sure wanna sign out pal?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('Nah, cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text('Log out'),
+            ),
+          ],
+        );
+      },
+    ).then((value) => value ?? false);
+  }
 }
